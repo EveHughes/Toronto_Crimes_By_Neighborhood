@@ -18,7 +18,7 @@ package <- show_package("7e038ff9-b616-4070-9753-6f493b2cdbb0")
 package
 
 #### Save data ####
-# change the_raw_data to whatever name you assigned when you downloaded it.
+# changed the_raw_data to raw_data.
 write_csv(x = raw_data, file = "data/raw_data/raw_data.csv") 
 
          

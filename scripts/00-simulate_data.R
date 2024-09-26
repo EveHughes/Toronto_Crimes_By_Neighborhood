@@ -15,8 +15,10 @@ library(tibble)
 #### Simulate data ####
 set.seed(0307)
 
+# Set number of observations to simulate
 num_neighbourhoods <- 50
 
+# Simulate data
 simulated_data <- tibble(
   Neighbourhood = paste("Neighbourhood", 1:num_neighbourhoods),
   Neighbourhood_Id = 1:num_neighbourhoods,
@@ -36,6 +38,7 @@ simulated_data <- tibble(
   `Vehicle Thefts` = sample(10:300, num_neighbourhoods, replace = TRUE)
 )
 
+# Print simulated data to ensure it was properly simulated
 print(simulated_data)
 
 
