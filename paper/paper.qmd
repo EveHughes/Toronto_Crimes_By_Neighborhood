@@ -34,7 +34,7 @@ The data set used for this paper (@TorontoSafety) was obtained from Open Data To
 
 This introduction went over the background of the paper and summarizes the overall procedures performed. It also highlighted the potential real-world implications of the analysis of the data. The remainder of this paper is structured as follows. The data section (@sec-data) will highlight the characteristics of the dataset used for this paper. It will look at the types of parameters that the initial data looks at and how these can be looked at. The section will dissect how the data can be interpreted via graphs and tables. The discussion section (@sec-discussion) will go over the real-world implications in more detail based on the findings of the data. The discussion of what the high crime numbers (@sec-crime_number), the relationships between total crimes and specific crimes (@sec-relationship), and further exploration of the relationship between assault and total crimes (@sec-assault) will be broken down. Potential ways of interpreting these pieces of information will be put into a real-world setting. The weaknesses and potential next steps of the data analysis will also be discussed (@sec-weakness). 
 
-This paper uses @citeR and @rohan. 
+This paper was created using statistical programming language R (@citeR) and was guided by (@rohan). Packages tidyverse (@citeTidyverse), knitr (@citeKnitr), ggplot2 (@citeGgplot2), and tibble (@citeTibble) were used as part of the code. The basis of the code was adapted from the book "Telling Stories with Data" (@tellingstorieswithdata). 
 
 
 # Data {#sec-data}
