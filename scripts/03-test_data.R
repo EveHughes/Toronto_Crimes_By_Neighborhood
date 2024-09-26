@@ -12,6 +12,27 @@
 library(tidyverse)
 library(dplyr)
 
+## for raw_data
+# Created summary statistics (EDA) of data set
+summary(simulated_data)
+
+# Check for any missing data values
+simulated_data %>%
+  summarise_all(~sum(is.na(.)))
+
+# Check for duplicates (not an issue in our case, just to get an idea)
+simulated_data %>%
+  filter(duplicated(.))
+
+# Check for unique values (not an issue in our case, just to get an idea)
+simulated_data %>%
+  summarise_all(~n_distinct(.))
+
+# Check first few rows of simulated_data
+head(simulated_data)
+
+
+## for analysis_data
 analysis_data <- read_csv("data/analysis_data/analysis_data.csv")
 
 # Created summary statistics (EDA) of data set
@@ -36,3 +57,4 @@ analysis_data %>%
 
 # Check first few rows of analysis_data
 head(analysis_data)
+
