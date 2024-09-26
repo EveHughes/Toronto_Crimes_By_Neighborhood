@@ -3,10 +3,10 @@ title: "Investigating the Safety of Different Toronto Neighbourhoods in 2011 Bas
 subtitle: "Determining Which Neighbourhoods have the Highest Number of Crimes and How Different Crimes are Correlated."
 author: 
   - Bruce Zhang
-thanks: "Code and data are available at: LINK."
+thanks: "Code and data are available at: https://github.com/brucejczhang/Toronto_Crimes_By_Neighborhood."
 date: "23 September 2024"
 date-format: long
-abstract: "The paper looks at how the crime rates in different Toronto neighbourhoods are different. The data will look into the differences in total major crime incidents per neighbourhood and compare these numbers to the number of specific crimes per neighbourhood. The paper will then assess any potential correlations between specific crimes and total crimes. This will lead to indications of safety and chance of specific crimes in neighbourhoods in the Greater Toronto Area (GTA). "
+abstract: "This paper looks at how the crime rates in different Toronto neighbourhoods vary between one another. The data will look into the differences in total major crime incidents per neighbourhood, specifically isolating and analyzing the data from neighbourhoods with high numbers of total crime. Then, the paper will compare these numbers to the number of specific crimes per neighbourhood and assess any potential correlations between specific crimes and total crimes. This will lead to indications of safety and chance of specific crimes in neighbourhoods in the Greater Toronto Area (GTA). Inferences can also be made regarding the relationship and tendency of specific crimes to occur in neighbourhoods with high overall crime numbers. "
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -26,16 +26,27 @@ cleaned_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
 \newpage
 # Introduction
 
-This paper looks at how Toronto neighbourhoods differ in the number of crimes committed. As those living in Toronto would know, certain areas of the city feel less safe than others. However, it is barely ever known whether these feelings of safety are proven by data or if it's just a non-evidence-based thought that people get. This paper aims to answer that question by looking at how the number of crimes differ between neighbourhoods. 
+This paper looks at how Toronto neighbourhoods differ in the number of crimes committed. As those living in Toronto would know, certain areas of the city feel less safe than others. Overall, in cities across the world, it is also a trend that the distribution of crimes and levels of safety vary between different regions (@WangLeeWilliams2019). However, it is rarely ever known whether these feelings of safety are proven by data or if it's just a non-evidence-based thought that people get. This paper aims to answer that question by looking at how the number of crimes differ between neighbourhoods based on the data (@TorontoSafety). 
 
-People also often think of different crimes differently when considering safety. For example, people may be more concerned about assault than theft and associate it more with safety due to the more dangerous nature of the crime. The paper will also look at how these specific types of crimes relate to the total number of major crimes and how that may indicate certain characteristics about the safety of the neighbourhood. 
+People also often think of different crimes differently when considering safety. For example, people may be more concerned about assault than theft and associate it more with safety than security due to the more violent nature of the crime. The paper will also look at how these specific types of crimes relate to the total number of major crimes and how that may indicate certain characteristics about the safety of the neighbourhood. Crimes are often found to be correlated by characteristics of the victim or offender (@DeLisiandVaughn2015). In other words, there are patterns in crimes. However, there may also be geographical characteristics of patterns of crime. This paper would attempt to look into these potential patterns based on the data present for crime abundances in different geographic locations (neighbourhoods) in the GTA.
 
-The introduction section goes over the background of the paper and summarizes the overall procedures performed. It also highlights the potential real-world implications of the analysis of the data. The remainder of this paper is structured as follows. The data section (@sec-data) will highlight the characteristics of the dataset used for this paper. It will look at the types of parameters that the initial data looks at and how these can be looked at. The section will dissect how the data can be interpreted via graphs and tables. The discussion section (@sec-discussion) will go over the real-world implications in more detail based on the findings of the data. Potential ways of interpreting the total major crime numbers and the correlation between types of crimes will be further broken down and put into a real-world setting. The weaknesses and potential next steps of the data analysis will also be discussed. 
+The data set used for this paper (@TorontoSafety) was obtained from Open Data Toronto. The measurement method of the data was by obtaining police and government related information. The publisher of the data acknowledged potential measurement errors due to method of measurement and ways that the neighbourhoods were separated. The direction of effect would be that the number of crimes may have been under-counted. 
+
+This introduction went over the background of the paper and summarizes the overall procedures performed. It also highlighted the potential real-world implications of the analysis of the data. The remainder of this paper is structured as follows. The data section (@sec-data) will highlight the characteristics of the dataset used for this paper. It will look at the types of parameters that the initial data looks at and how these can be looked at. The section will dissect how the data can be interpreted via graphs and tables. The discussion section (@sec-discussion) will go over the real-world implications in more detail based on the findings of the data. The discussion of what the high crime numbers (@sec-crime_number), the relationships between total crimes and specific crimes (@sec-relationship), and further exploration of the relationship between assault and total crimes (@sec-assault) will be broken down. Potential ways of interpreting these pieces of information will be put into a real-world setting. The weaknesses and potential next steps of the data analysis will also be discussed (@sec-weakness). 
+
+This paper uses @citeR and @rohan. 
 
 
 # Data {#sec-data}
 
-Based on the raw data, different neighbourhoods have a different amount of crimes by category. The table (@fig-cleaned_data) shows an example of this data for 10 neighbourhoods. 
+## Overview
+
+For the data section, this paper will focus on identifying the 50 most dangerous neighbourhoods in the GTA based on the number of total crime incidents. Then, the paper will look at how different crime types correlate with the number of total crimes within these neighbourhoods. This will help identify trends of crime relationships in the most crime-abundant areas of the GTA.
+
+
+## Data Table
+
+Based on the raw data, different neighbourhoods have a different amount of crimes by category. The table (@fig-cleaned_data) shows an example of this data for 10 neighbourhoods. The data shown has been clean to be ordered in a way where the neighbourhoods with the highest total number of crime incidents would be listed first. 
 
 ```{r}
 #| label: fig-cleaned_data
@@ -44,7 +55,9 @@ Based on the raw data, different neighbourhoods have a different amount of crime
 
 library(knitr)
 
-cleaned_data |> 
+ordered_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"), show_col_types = FALSE)
+
+ordered_data |> 
   slice(1:10) |> 
   kable(
     col.names = c("Neighbourhood", "Assaults",
@@ -53,9 +66,14 @@ cleaned_data |>
                   "Vehicle Thefts"), digits = 1, booktabs = TRUE, linesep = ""
   ) 
 
-show_col_types = FALSE
 ```
 
+The data from the table (@fig-cleaned_data) show that the Waterfront Communities have the most total number of crime incidents in 2011. The remaining neighbourhoods in the top 10 include those on the left-most column labelled "Neighbourhood" in @fig-cleaned_data. The types of specific crimes that are viewed are in the column headings in row 1 of @fig-cleaned_data. These are the most common crimes that have occurred in the GTA in 2011, as represented by the data set. 
+
+
+## Graphical Representations
+
+The bar graph (@fig-total_crimes_top_50) shows the top 50 neighbourhoods ranked by the total major crime incidents. This helps narrow down the high-crime communities where correlational relationships between total major crime incidents and specific crimes can be better analyzed. 
 
 ```{r}
 #| label: fig-total_crimes_top_50
@@ -78,9 +96,9 @@ ggplot(data = analysis_data, mapping = aes(x = neighbourhood, y = total_major_cr
 show_col_types = FALSE
 ```
 
-The bar graph (@fig-total_crimes_top_50) shows the top 50 neighbourhoods ranked by the total major crime incidents. This helps narrow down the high-crime communities where correlational relationships between total major crime incidents and specific crimes can be better analyzed. As the graph suggests, the neighbourhood named "Waterfront Communities - The Island" has a substantially higher number of total major crime incidents compared to the others. Other neighbourhoods such as the "West Humber-Clairville" neighbourhood, "Bay Street Corridor", "Church-Yonge Corridor", and a few others also have a noticeably higher numbers of total major crime incidents. 
+The graph visually demonstrates what was quantitatively seen in @fig-cleaned_data. The neighbourhood named "Waterfront Communities - The Island" has a substantially higher number of total major crime incidents compared to the others. Other neighbourhoods such as the "West Humber-Clairville", "Bay Street Corridor", "Church-Yonge Corridor", and a few others also have a noticeably higher numbers of total major crime incidents. The other neighbourhoods from the top 50 in total crime incidents that are represented all have an estimate of 350 total major crimes in 2011. This is significantly less than than "Waterfront Communities - The Island", which had 1393 total crime incidents in 2011, as indicated by @fig-cleaned_data. 
 
-Scatter plots (@fig-correlation) were constructed to examine the potential correlations between major crimes and specific crimes. 
+Scatter plots (@fig-correlation) were constructed to examine the potential correlations between major crimes and specific crimes. The purpose of these was to identify the patterns of crimes relative to the number of total crimes, or general safety level, of the neighbourhood. 
 
 ```{r}
 #| label: fig-correlation
@@ -149,30 +167,34 @@ ggplot(data = analysis_data, mapping = aes(x = total_major_crime_incidents, y = 
   theme_minimal()
 ```
 
+\newpage
+Based on the scatter plots in @fig-correlation, it can be seen that the specific types of crimes examined, including assaults, break and enters, drug arrests, hazardous incidents, sexual assaults, thefts, and vehicle thefts, all show positive correlation to the total number of major crime incidents. This can be seen by the overall increasing trend of the number of each specific crime as the number of total crimes increase. However, it is also clear that most specific crimes are very weakly correlated the the total number of crimes. The only crime with a relatively strong correlation to the total number of major crime incidents, based on visual interpretations, is assault. The stronger correlation is determined by the more clustered and data points and the clearer trend of increase in number of assaults as the total number of crime incidents increase. 
 
-Based on the scatterplots in @fig-correlation, it can be seen that the specific types of crimes examined, including assaults, break and enters, drug arrests, hazardous incidents, sexual assaults, thefts, and vehicle thefts, all show positive correlation to the total number of major crime incidents. However, it is also clear that most specific crimes are very weakly correlated the the total number of crimes. The only crime with a relatively strong correlation to the total number of major crime incidents, based on visual interpretations, is assault. 
 
-
-\newpage 
 # Discussion {#sec-discussion}
 
-## Implication of High Number of Total Major Crime Incidents {#sec-first-point}
+## Implication of High Number of Total Major Crime Incidents {#sec-crime_number}
 
 Based on what was seen in the data, the Toronto neighbourhoods with the highest total number of major crimes can be easily determined. According to what was shown in the bar graph (@fig-total_crimes_top_50), neighbourhoods located near the South part of the Greater Toronto Area (GTA), especially Downtown regions of the city, were highly represented in the top 50 for total crimes. 
 
-One interpretation is that this indicates that the safety of the downtown region is considerably lower than other regions of the city. The city departments that play a role in citizen regulation and safety control may be less competent than those departments in regions with lower numbers of total major crime incidents. 
+One interpretation is that this indicates that the safety of the downtown region is considerably lower than other regions of the city. The city departments that play a role in citizen regulation and safety control may be less competent than those departments in regions with lower numbers of total major crime incidents. On a similar note, the social status and financial ability of people in different neighbourhoods vary. Those neighbourhoods with higher numbers of crime could be the ones where preferred victims of criminals live. 
 
 However, another interpretation could be related to the population and abundance of people. The regions with the highest total major crime incidents also tend to be regions with a higher population abundance. The Downtown Toronto area is significantly more populated than Northern GTA. Since the data presented was not standardized for population size, the numbers reflected can largely be a result of that difference. Having more people in a given neighbourhood would likely impact the number of crimes committed. 
 
 
-## Relationship Between Specific Crimes and Total Crimes of Neighbourhoods
+## Relationship Between Specific Crimes and Total Crimes of Neighbourhoods {#sec-relationship}
 
 Based on what was seen in the results displayed in @fig-correlation, all specific crimes show a positve but relatively weak correlation to the total number of major crime incidents. This indicates that, although a high total number of crimes may suggest a higher likelihood of each specific crime, the relationship is not strong. A neighbourhood with the highest number of total number of major crimes may not consequently have the most number of vehicle theft, for example. This can be further examined by calculating crime rates and looking at the correlations again. 
 
 The crime that had notably stronger correlation to the total major crime incidents was assault, as seen in sub figure (a) of @fig-correlation. This suggests that there may be more of a relation between the total number of crimes in the area and assault crimes in the area. In other words, the general safety or likelihood of crime in a neighbourhood in Toronto can indicate the likelihood of assault happening in that area more so than it can indicate the likelihood of other crimes. The cause of this stronger relationship requires further research and investigation to determine if the stronger relationship is significant and a reproducible result. 
 
 
-## Weaknesses and next steps
+## Further Interpretation of The Relationship Between Assault and Total Crimes {#sec-assault}
+
+The potential reasons behind assault numbers being correlated to the total number of major crimes can vary largely. One way of interpreting this relationship is that, people who commit assault crimes tend to do so in neighbourhoods that have more crime overall. This tendency is stronger than people committing other types of crimes. Many other potential explanations may be valid. Further research would be required for a specific conclusion on the reason behind this correlation. 
+
+
+## Weaknesses and next steps {#sec-weakness}
 
 One weakness, which was previously mentioned, is how the data is not standardized for different population sizes. This results in the data across different communities being incomparable. A next step to solve this issue would be to obtain population data and calculate the crime rate instead of the number of crime incidents. This would allow the data from each neighbourhood to be standardized. They can then be compared to determine the levels of safety of different communities relative to each other. 
 
@@ -181,6 +203,4 @@ Another weakness is the lack of generalizability of this data and correlational 
 
 \newpage
 # References
-@citeR
-@rohan
 
