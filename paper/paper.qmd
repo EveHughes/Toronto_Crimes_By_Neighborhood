@@ -171,6 +171,7 @@ ggplot(data = analysis_data, mapping = aes(x = total_major_crime_incidents, y = 
   theme_minimal()
 ```
 
+
 Based on the scatter plots in @fig-correlation, it can be seen that the specific types of crimes examined, including assaults, break and enters, drug arrests, hazardous incidents, sexual assaults, thefts, and vehicle thefts, all show positive correlation to the total number of major crime incidents. This can be seen by the overall increasing trend of the number of each specific crime as the number of total crimes increase. However, it is also clear that most specific crimes are very weakly correlated the the total number of crimes. The only crime with a relatively strong correlation to the total number of major crime incidents, based on visual interpretations, is assault (@fig-correlation (a)). The stronger correlation is determined by the more clustered and data points and the clearer trend of increase in number of assaults as the total number of crime incidents increase. 
 
 
@@ -178,9 +179,9 @@ Based on the scatter plots in @fig-correlation, it can be seen that the specific
 
 ## Implication of High Number of Total Major Crime Incidents {#sec-crime_number}
 
-Based on what was seen in the data, the Toronto neighbourhoods with the highest total number of major crimes can be easily determined. According to what was shown in the bar graph (@fig-total_crimes_top_50), neighbourhoods located near the South part of the Greater Toronto Area (GTA), especially Downtown regions of the city, were highly represented in the top 50 for total crimes. 
+Based on what was seen in the data, the Toronto neighbourhoods with the highest total number of major crimes can be easily determined. According to what was shown in the bar graph (@fig-total_crimes_top_50), neighbourhoods that were highest in total number of crimes tended to be located towards the South part of the Greater Toronto Area (GTA), especially Downtown regions of the city. The higher crime numbers can be interpreted as an overall well-being of the community and the safety of the neighbourhood, as indicated in the original data set (@TorontoSafety). 
 
-One interpretation is that this indicates that the safety of the downtown region is considerably lower than other regions of the city. The city departments that play a role in citizen regulation and safety control may be less competent than those departments in regions with lower numbers of total major crime incidents. On a similar note, the social status and financial ability of people in different neighbourhoods vary. Those neighbourhoods with higher numbers of crime could be the ones where preferred victims of criminals live. 
+One interpretation is that this indicates that the safety of the downtown region is considerably lower than other regions of the city. The city departments that play a role in citizen regulation and safety control may be less competent than those departments in regions with lower numbers of total major crime incidents. On a similar note, the social status and financial ability of people in different neighbourhoods vary. Those neighbourhoods with higher numbers of crime could be the ones where preferred victims of criminals live or where criminals themselves tend to reside. 
 
 However, another interpretation could be related to the population and abundance of people. The regions with the highest total major crime incidents also tend to be regions with a higher population abundance. The Downtown Toronto area is significantly more populated than Northern GTA. Since the data presented was not standardized for population size, the numbers reflected can largely be a result of that difference. Having more people in a given neighbourhood would likely impact the number of crimes committed. 
 
@@ -194,7 +195,7 @@ The crime that had notably stronger correlation to the total major crime inciden
 
 ## Further Interpretation of The Relationship Between Assault and Total Crimes {#sec-assault}
 
-The potential reasons behind assault numbers being correlated to the total number of major crimes can vary largely. One way of interpreting this relationship is that, people who commit assault crimes tend to do so in neighbourhoods that have more crime overall. This tendency is stronger than people committing other types of crimes. Many other potential explanations may be valid. Further research would be required for a specific conclusion on the reason behind this correlation. 
+The potential reasons behind assault numbers being correlated to the total number of major crimes can vary largely. This can interpret One way of interpreting this relationship is that, people who commit assault crimes tend to do so in neighbourhoods that have more crime overall. This tendency is stronger than people committing other types of crimes. Many other potential explanations may be valid. Further research would be required for a specific conclusion on the reason behind this correlation. 
 
 
 ## Weaknesses and next steps {#sec-weakness}
@@ -203,6 +204,7 @@ One weakness, which was previously mentioned, is how the data is not standardize
 
 Another weakness is the lack of generalizability of this data and correlational analysis. Since the data is solely from Toronto neighbourhoods and is obtained in 2011, the correlations between crimes may not hold relevant in any other city in the world. It may also no longer be relevant at the current time because of how much the city has changed and developed over the past 13 years. To address this, a more thorough analysis on different cities across the world would need to be done. It would also be important to use data that is more recent in order to have implications on the future. 
 
+A final weakness is the timeliness of this data. The data set is from 2011, which is out of date to be used for analysis of more recent trends. The neighbourhood crime numbers could have shifted largely since 2011. There may have also been expansions of the city, where many neighbourhoods present today may not have been present in 2011. This means that the data that is looked at in this paper may not be the best source to use to make residence suggestions to people living in the city today. To improve this, a more recent set of data must be used. Similar ways of analyzing the data can be done to achieve the effects of suggesting residency for the current population. 
 
 \newpage
 # References
