@@ -1,60 +1,65 @@
 #### Preamble ####
 # Purpose: Tests the data
-# Author: Bruce Zhang
+# Author: Bruce Zhang (converted to Python unittest)
 # Date: 23 September 2024
 # Contact: brucejc.zhang@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: None
-# Any other information needed? None
 
+import unittest
+import pandas as pd
+import matplotlib.pyplot as plt
 
-#### Workspace setup ####
-library(tidyverse)
-library(dplyr)
+class TestCrimeData(unittest.TestCase):
+    
+    @classmethod
+    def setUpClass(cls):
+        # Load both datasets
+        cls.simulated_data = pd.read_csv("data/raw_data/raw_data.csv")
+        cls.analysis_data = pd.read_csv("data/analysis_data/analysis_data.csv")
+    
+    # Simulated data tests
+    def test_simulated_data_not_empty(self):
+        self.assertFalse(self.simulated_data.empty, "Simulated data is empty.")
+    
+    def test_simulated_data_no_missing(self):
+        missing = self.simulated_data.isnull().sum().sum()
+        self.assertEqual(missing, 0, f"Simulated data has {missing} missing values.")
+    
+    def test_simulated_data_no_duplicates(self):
+        duplicates = self.simulated_data.duplicated().sum()
+        self.assertEqual(duplicates, 0, f"Simulated data has {duplicates} duplicate rows.")
+    
+    def test_simulated_data_unique_counts(self):
+        unique_counts = self.simulated_data.nunique()
+        self.assertTrue((unique_counts > 1).all(), "Some columns in simulated_data have only 1 unique value.")
 
-## for raw_data
-# Created summary statistics (EDA) of data set
-summary(simulated_data)
+    # Analysis data tests
+    def test_analysis_data_not_empty(self):
+        self.assertFalse(self.analysis_data.empty, "Analysis data is empty.")
+    
+    def test_analysis_data_no_missing(self):
+        missing = self.analysis_data.isnull().sum().sum()
+        self.assertEqual(missing, 0, f"Analysis data has {missing} missing values.")
+    
+    def test_analysis_data_no_duplicates(self):
+        duplicates = self.analysis_data.duplicated().sum()
+        self.assertEqual(duplicates, 0, f"Analysis data has {duplicates} duplicate rows.")
+    
+    def test_analysis_data_unique_counts(self):
+        unique_counts = self.analysis_data.nunique()
+        self.assertTrue((unique_counts > 1).all(), "Some columns in analysis_data have only 1 unique value.")
 
-# Check for any missing data values
-simulated_data %>%
-  summarise_all(~sum(is.na(.)))
+# Optional visualization (run separately from tests)
+def visualize_analysis_data():
+    df = pd.read_csv("data/analysis_data/analysis_data.csv")
+    plt.figure(figsize=(10, 6))
+    plt.xticks(rotation=90)
+    plt.scatter(df["neighbourhood"], df["total_major_crime_incidents"])
+    plt.title("Total Major Crime Incidents by Neighbourhood")
+    plt.xlabel("Neighbourhood")
+    plt.ylabel("Total Major Crime Incidents")
+    plt.tight_layout()
+    plt.show()
 
-# Check for duplicates (not an issue in our case, just to get an idea)
-simulated_data %>%
-  filter(duplicated(.))
-
-# Check for unique values (not an issue in our case, just to get an idea)
-simulated_data %>%
-  summarise_all(~n_distinct(.))
-
-# Check first few rows of simulated_data
-head(simulated_data)
-
-
-## for analysis_data
-analysis_data <- read_csv("data/analysis_data/analysis_data.csv")
-
-# Created summary statistics (EDA) of data set
-summary(analysis_data)
-
-# Check for any missing data values
-analysis_data %>%
-  summarise_all(~sum(is.na(.)))
-
-# Visualize data by creating a simple scatter plot
-library(ggplot2)
-ggplot(analysis_data, aes(x = neighbourhood, y = total_major_crime_incidents)) +
-  geom_point()
-
-# Check for duplicates (not an issue in our case, just to get an idea)
-analysis_data %>%
-  filter(duplicated(.))
-
-# Check for unique values (not an issue in our case, just to get an idea)
-analysis_data %>%
-  summarise_all(~n_distinct(.))
-
-# Check first few rows of analysis_data
-head(analysis_data)
-
+if __name__ == "__main__":
+    unittest.main()

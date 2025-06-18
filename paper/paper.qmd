@@ -12,15 +12,14 @@ number-sections: true
 bibliography: references.bib
 ---
 
-```{r}
+```{python}
 #| include: false
 #| warning: false
 #| message: false
 
-library(tidyverse)
-library(opendatatoronto)
+import pandas as pd
 
-cleaned_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
+cleaned_data = pd.read_csv("../data/analysis_data/analysis_data.csv")
 ```
 
 \newpage
@@ -36,7 +35,7 @@ The scatter plot showed that specific crime types, including assault, theft, bre
 
 This introduction went over the background of the paper and summarizes the overall procedures performed. It also highlighted the potential real-world implications of the analysis of the data. The remainder of this paper is structured as follows. The data section (@sec-data) will highlight the characteristics of the dataset used for this paper. It will look at the types of parameters that the initial data looks at and how these can be looked at. The section will dissect how the data can be interpreted via graphs and tables. The discussion section (@sec-discussion) will go over the real-world implications in more detail based on the findings of the data. The discussion of what the high crime numbers (@sec-crime_number), the relationships between total crimes and specific crimes (@sec-relationship), and further exploration of the relationship between assault and total crimes (@sec-assault) will be broken down. Potential ways of interpreting these pieces of information will be put into a real-world setting. The weaknesses and potential next steps of the data analysis will also be discussed (@sec-weakness). 
 
-This paper was created using statistical programming language R (@citeR) and was guided by (@rohan). Packages tidyverse (@citeTidyverse), knitr (@citeKnitr), ggplot2 (@citeGgplot2), and tibble (@citeTibble) were used as part of the code. The basis of the code was adapted from the book "Telling Stories with Data" (@tellingstorieswithdata). 
+This paper was created using statistical programming language python (@python). Packages numpy (@numpy), matplotlib (@matplotlib) and pandas (@pandas) were used as part of the code. 
 
 
 # Data {#sec-data}
@@ -52,123 +51,131 @@ For the data section, this paper will focus on identifying the 50 most dangerous
 
 Based on the raw data, different neighbourhoods have a different amount of crimes by category. The table (@fig-cleaned_data) shows an example of this data for 10 neighbourhoods. The data shown has been clean to be ordered in a way where the neighbourhoods with the highest total number of crime incidents would be listed first. 
 
-```{r}
+```{python}
 #| label: fig-cleaned_data
-#| fig-cap: Number of Different Types of Crimes By Neighbourhood 
+#| fig-width: 10
+#| fig-height: 2.5
 #| echo: false
 
-library(knitr)
+import pandas as pd
+import matplotlib.pyplot as plt
 
-ordered_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"), show_col_types = FALSE)
+# Load and prepare data
+df = pd.read_csv("../data/analysis_data/analysis_data.csv").head(10)
 
-ordered_data |> 
-  slice(1:10) |> 
-  kable(
-    col.names = c("Neighbourhood", "Assaults",
-                  "Break & Enters", "Drug Arrests", "Hazardous Incidents", 
-                  "Sexual Assaults", "Thefts", "Total Major Crime Incidents", 
-                  "Vehicle Thefts"), digits = 1, booktabs = TRUE, linesep = ""
-  ) 
+# Shorten column names manually with \n
+df = df.rename(columns={
+    "neighbourhood": "Neighbourhood",
+    "assaults": "Assaults",
+    "break_and_enters": "Break\n& Enters",
+    "drug_arrests": "Drug\nArrests",
+    "hazardous_incidents": "Hazardous\nIncidents",
+    "sexual_assaults": "Sexual\nAssaults",
+    "thefts": "Thefts",
+    "total_major_crime_incidents": "Total\nMajor\nCrimes",
+    "vehicle_thefts": "Vehicle\nThefts"
+})
+
+# Convert to string (optional for display control)
+table_data = df.values
+column_labels = df.columns
+
+# Create figure
+fig, ax = plt.subplots(figsize=(12, 3))
+ax.axis('off')
+
+# Create the table
+table = ax.table(
+    cellText=table_data,
+    colLabels=column_labels,
+    loc='center',
+    cellLoc='center'
+)
+
+table.auto_set_font_size(False)
+table.set_fontsize(8)
+table.scale(1, 1.5)  # Adjust height
+
+plt.tight_layout()
+plt.show()
 
 ```
 
-The data from the table (@fig-cleaned_data) show that the Waterfront Communities have the most total number of crime incidents in 2011. The remaining neighbourhoods in the top 10 include those on the left-most column labelled "Neighbourhood" in @fig-cleaned_data. The types of specific crimes that are viewed are in the column headings in row 1 of @fig-cleaned_data. These are the most common crimes that have occurred in the GTA in 2011, as represented by the data set. 
+The data from the table (@fig-cleaned_data) show that the Waterfront Communities have the most total number of crime incidents in 2011. The remaining neighbourhoods in the top 10 include those on the left-most column labelled "Neighbourhood" in (@fig-cleaned_data). The types of specific crimes that are viewed are in the column headings in row 1 of (@fig-cleaned_data). These are the most common crimes that have occurred in the GTA in 2011, as represented by the data set. 
 
 
 ## Graphical Representations
 
 The bar graph (@fig-total_crimes_top_50) shows the top 50 neighbourhoods ranked by the total major crime incidents. This helps narrow down the high-crime communities where correlational relationships between total major crime incidents and specific crimes can be better analyzed. 
 
-```{r}
+```{python}
 #| label: fig-total_crimes_top_50
 #| fig-cap: Top 50 Neighbourhoods in Total Major Crime Incidents
 #| echo: false
 
-analysis_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"), show_col_types = FALSE)
+import pandas as pd
+import matplotlib.pyplot as plt
 
-ggplot(data = analysis_data, mapping = aes(x = neighbourhood, y = total_major_crime_incidents)) +
-  geom_bar(stat = "identity", fill = "skyblue", color = "darkgrey") +
-  theme_minimal() +
-  labs(title = "Number of Total Major Crime Incidents By Neighbourhood
-       (Top 50 Neighbourhoods)", 
-       x = "Neighbourhood", 
-       y = "Total Major Crime Incidents") +
-  theme(axis.text.x = element_text(angle = 65, hjust = 1), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank())
+analysis_data = pd.read_csv("../data/analysis_data/analysis_data.csv")
 
-show_col_types = FALSE
+plt.figure(figsize=(10, 6))
+plt.bar(analysis_data["neighbourhood"], analysis_data["total_major_crime_incidents"],
+        color="skyblue", edgecolor="darkgrey")
+plt.title("Number of Total Major Crime Incidents By Neighbourhood\n(Top 50 Neighbourhoods)")
+plt.xlabel("Neighbourhood")
+plt.ylabel("Total Major Crime Incidents")
+plt.xticks(rotation=65, ha='right')
+plt.grid(False)
+plt.tight_layout()
+plt.show()
+
 ```
 
 The graph visually demonstrates what was quantitatively seen in @fig-cleaned_data. The neighbourhood named "Waterfront Communities - The Island" has a substantially higher number of total major crime incidents compared to the others. Other neighbourhoods such as the "West Humber-Clairville", "Bay Street Corridor", "Church-Yonge Corridor", and a few others also have a noticeably higher numbers of total major crime incidents. The other neighbourhoods from the top 50 in total crime incidents that are represented all have an estimate of 350 total major crimes in 2011. This is significantly less than than "Waterfront Communities - The Island", which had 1393 total crime incidents in 2011, as indicated by @fig-cleaned_data. 
 
 Scatter plots (@fig-correlation) were constructed to examine the potential correlations between major crimes and specific crimes. The purpose of these was to identify the patterns of crimes relative to the number of total crimes, or general safety level, of the neighbourhood. 
 
-```{r}
+```{python}
 #| label: fig-correlation
 #| fig-cap: Relationship between Total Major Crime Incidents and Specific Crimes for The 50 Neighbourhoods with the Highest Number of Total Major Crime Incidents in Toronto in 2011
 #| fig-subcap: ["Assaults", "Break and Enters", "Drug Arrests", "Hazardous Incidents", "Sexual Assaults", "Thefts", "Vehicle Thefts"]
 #| layout-ncol: 3
 #| echo: false
 
+import pandas as pd
+import matplotlib.pyplot as plt
 
-analysis_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"), show_col_types = FALSE)
+analysis_data = pd.read_csv("../data/analysis_data/analysis_data.csv")
 
-ggplot(data = analysis_data, mapping = aes(x = total_major_crime_incidents, y = assaults)) +
-  geom_point(color = "skyblue") +
-  theme_minimal() +
-  labs(title = "", 
-       x = "Total Major Crime Incidents", 
-       y = "Number of Assaults") +
-  theme_minimal()
+fig, axes = plt.subplots(3, 3, figsize=(15, 12))
+axes = axes.flatten()
 
-ggplot(data = analysis_data, mapping = aes(x = total_major_crime_incidents, y = break_and_enters)) +
-  geom_point(color = "skyblue") +
-  theme_minimal() +
-  labs(title = "", 
-       x = "Total Major Crime Incidents", 
-       y = "Number of Break and Enters") +
-  theme_minimal()
+# Plot variables (7 plots, 9 subplots to preserve layout)
+plot_vars = [
+    ("assaults", "Number of Assaults"),
+    ("break_and_enters", "Number of Break and Enters"),
+    ("drug_arrests", "Number of Drug Arrests"),
+    ("hazardous_incidents", "Number of Hazardous Incidents"),
+    ("sexual_assaults", "Number of Sexual Assault"),
+    ("thefts", "Number of Thefts"),
+    ("vehicle_thefts", "Number of Vehicle Thefts"),
+]
 
-ggplot(data = analysis_data, mapping = aes(x = total_major_crime_incidents, y = drug_arrests)) +
-  geom_point(color = "skyblue") +
-  theme_minimal() +
-  labs(title = "", 
-       x = "Total Major Crime Incidents", 
-       y = "Number of Drug Arrests") +
-  theme_minimal()
+for i, (col, y_label) in enumerate(plot_vars):
+    ax = axes[i]
+    ax.scatter(analysis_data["total_major_crime_incidents"], analysis_data[col], color="skyblue")
+    ax.set_xlabel("Total Major Crime Incidents")
+    ax.set_ylabel(y_label)
+    ax.set_title("")  # Matches R version: no title
+    ax.set_facecolor("white")
 
-ggplot(data = analysis_data, mapping = aes(x = total_major_crime_incidents, y = hazardous_incidents)) +
-  geom_point(color = "skyblue") +
-  theme_minimal() +
-  labs(title = "", 
-       x = "Total Major Crime Incidents", 
-       y = "Number of Hazardous Incidents") +
-  theme_minimal()
+# Leave remaining subplots empty to match 3x3 layout
+for i in range(len(plot_vars), 9):
+    fig.delaxes(axes[i])
 
-ggplot(data = analysis_data, mapping = aes(x = total_major_crime_incidents, y = sexual_assaults)) +
-  geom_point(color = "skyblue") +
-  theme_minimal() +
-  labs(title = "", 
-       x = "Total Major Crime Incidents", 
-       y = "Number of Sexual Assault") +
-  theme_minimal()
+plt.tight_layout()
+plt.show()
 
-ggplot(data = analysis_data, mapping = aes(x = total_major_crime_incidents, y = thefts)) +
-  geom_point(color = "skyblue") +
-  theme_minimal() +
-  labs(title = "", 
-       x = "Total Major Crime Incidents", 
-       y = "Number of Thefts") +
-  theme_minimal()
-
-ggplot(data = analysis_data, mapping = aes(x = total_major_crime_incidents, y = vehicle_thefts)) +
-  geom_point(color = "skyblue") +
-  theme_minimal() +
-  labs(title = "", 
-       x = "Total Major Crime Incidents", 
-       y = "Number of Vehicle Thefts") +
-  theme_minimal()
 ```
 
 
