@@ -1,8 +1,8 @@
 #### Preamble ####
 # Purpose: Tests the data
-# Author: Bruce Zhang (converted to Python unittest)
+# Author: Kevin Lin
 # Date: 23 September 2024
-# Contact: brucejc.zhang@mail.utoronto.ca
+# Contact: kevin.lin@mail.utoronto.ca
 # License: MIT
 
 import unittest

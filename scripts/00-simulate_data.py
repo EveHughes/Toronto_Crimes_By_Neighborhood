@@ -1,8 +1,8 @@
 #### Preamble ####
 # Purpose: Simulates Crime-related Data for Different Neighborhoods in Toronto
-# Author: Bruce Zhang (translated to Python)
+# Author: Kevin Lin
 # Date: 23 September 2024
-# Contact: brucejc.zhang@mail.utoronto.ca
+# Contact: kevin.lin@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: pandas, numpy
 

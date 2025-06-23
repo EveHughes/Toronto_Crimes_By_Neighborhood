@@ -1,8 +1,8 @@
 #### Preamble ####
 # Purpose: Cleans the raw data
-# Author: Bruce Zhang (translated to Python)
+# Author: Kevin Lin
 # Date: 23 September 2024
-# Contact: brucejc.zhang@mail.utoronto.ca
+# Contact: kevin.lin@mail.utoronto.ca
 # License: MIT
 
 import pandas as pd

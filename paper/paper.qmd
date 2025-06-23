@@ -1,9 +1,9 @@
 ---
-title: "Investigating the Safety of Different Toronto Neighbourhoods in 2011 Based on The Number of Crimes Reported"
-subtitle: "Determining Which Neighbourhoods have the Highest Number of Crimes and How Different Crimes are Correlated."
+title: "Investigating Neighbourhood Safety in Toronto Using 2011 Crime Data"
+subtitle: "Finding Which Neighbourhoods Have the Most Crimes and How Different Types of Crimes Are Related"
 author: 
-  - Bruce Zhang
-thanks: "Code and data are available at: https://github.com/brucejczhang/Toronto_Crimes_By_Neighborhood."
+  - Kevin Lin
+thanks: "Code and data are available at: https://github.com/EveHughes/Toronto_Crimes_By_Neighborhood."
 date: "27 September 2024"
 date-format: long
 abstract: "This paper looks at the differences in total major crime incidents per neighbourhood, specifically isolating and analyzing the data from neighbourhoods with high numbers of total crime. The paper also compares these numbers to the number of specific crimes per neighbourhood and assesses any potential correlations between specific crimes and total crimes. The findings reveal that the 'Waterfront Community' neighbourhood had the highest number of total crimes among other neighbourhoods in the Southern portion of Toronto. The findings also reveals that the number of assault had a more obvious positive correlation to the total number of crimes compared to other crime types. This leads to indications of safety and chance of specific crimes in neighbourhoods in the Greater Toronto Area (GTA) and can be used as a guideline to select neighbourhoods to live in. Inferences can also be made regarding the relationship and tendency of specific crimes to occur in neighbourhoods with high overall crime numbers. "
